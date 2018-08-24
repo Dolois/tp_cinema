@@ -4,7 +4,7 @@
 
 #### Créations des tables suivantes :
 
-#### 1) film (__numf__, titre, genre, annee, longueur, budget, realisateur, salaire_real)
+#### 1) film (<u>numf</u>, titre, genre, annee, longueur, budget, realisateur, salaire_real)
 #### 2) personne (nump, prenom, nom, datenais, nationalite, adresse, ville, telephone)
 #### 3) cinema (numc, nom, adresse, ville, telephone, compagnie)
 #### 4) acteur (numa, agent, specialite, taille, poids, #nump)
