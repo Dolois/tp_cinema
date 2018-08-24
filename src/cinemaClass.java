@@ -292,6 +292,91 @@ public class cinemaClass
 		return st;
 	}
 
+	// creation d'une méthode pour exécuter la 7ème requête SQL
+	public static Statement requeteSQL_7(Connection cn)
+	{
+		Statement st = null;
+		
+		// création du statement
+		try
+		{
+			// creation d'un statement
+			st = (Statement) cn.createStatement();
+			
+			String sql =	"SELECT titre, genre " +
+							"FROM film " +
+							"WHERE realisateur = 'Roman Polanski'";
+			
+			// la classe ResultSet permet d'exécuter une requête
+			// creation d'une instance result de la classe ResultSet
+			// pour stocker le resultat de la requête
+			ResultSet result = (ResultSet) st.executeQuery(sql);
+			
+			String titre;
+			String genre;
+			
+			while(result.next())
+			{
+				titre = result.getString("titre");
+				genre = result.getString("genre");
+				System.out.println("film de Roman Polanski " + titre + ", " + genre);
+			}
+			
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return st;
+	}
+	
+	// creation d'une méthode pour exécuter la 8ème requête SQL
+	public static Statement requeteSQL_8(Connection cn)
+	{
+		Statement st = null;
+		
+		// création du statement
+		try
+		{
+			// creation d'un statement
+			st = (Statement) cn.createStatement();
+			
+			String sql =	"SELECT f.realisateur, f.titre, f.genre, p.nom, p.prenom " +
+							"FROM film f " +
+							"INNER JOIN distribution d ON d.numf = f.numf " +
+							"INNER JOIN acteur a ON a.numa =d.numa " +
+							"INNER JOIN personne p ON p.nump = a.nump " +
+							"WHERE f.realisateur = 'Steven Spielberg'";
+			
+			// la classe ResultSet permet d'exécuter une requête
+			// creation d'une instance result de la classe ResultSet
+			// pour stocker le resultat de la requête
+			ResultSet result = (ResultSet) st.executeQuery(sql);
+			
+			String realisateur;
+			String titre;
+			String genre;
+			String nom;
+			String prenom;
+			
+			while(result.next())
+			{
+				realisateur = result.getString("realisateur");
+				titre = result.getString("titre");
+				genre = result.getString("genre");
+				nom = result.getString("nom");
+				prenom = result.getString("prenom");
+				System.out.println(prenom + "-" + nom + 
+									" à joué dans le film " + genre + ", " + titre + 
+									" du réalisateur " + realisateur);
+			}
+			
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return st;
+	}
+
 	public static void main(String[] args)
 	{
 		Connection cn = null;
@@ -323,6 +408,14 @@ public class cinemaClass
 		
 		// création et exécution de la 6ème requete SQL
 		st = requeteSQL_6(cn);
+		System.out.println("");
+
+		// création et exécution de la 7ème requete SQL
+		st = requeteSQL_7(cn);
+		System.out.println("");
+		
+		// création et exécution de la 8ème requete SQL
+		st = requeteSQL_8(cn);
 		System.out.println("");
 		
 		// appelle de la méthode de fermeture
