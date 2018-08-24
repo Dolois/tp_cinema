@@ -1,4 +1,4 @@
-## Travaux Pratique Dirigé  du Projet cinéma
+## Travaux Pratique du Projet cinéma
 -------------------------------
 #### Création d'une database cinema
 
