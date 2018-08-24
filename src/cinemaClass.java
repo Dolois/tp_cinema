@@ -7,9 +7,9 @@ import com.mysql.jdbc.Statement;
 
 public class cinemaClass
 {
-	// bonne pratique
 	// creation d'une méthode pour ouvrir la connection
 	// cette méthode retourne une variable de type Connection
+	// de la classe Connection
 	public static Connection openConnection(Statement st) 
 	{
 		// déclarations de variables de connection
@@ -48,7 +48,6 @@ public class cinemaClass
 			e.printStackTrace();
 		}
 		System.out.println("..Connection Ok");
-		System.out.println("");
 		
 		// retourne la connection
 		return cn;
@@ -66,12 +65,11 @@ public class cinemaClass
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		System.out.println("");
 		System.out.println("...Déconnection Ok");
 	}
 	
-	// creation d'une méthode pour exécuter une requête sql
-	public static Statement selectAll(Connection cn)
+	// creation d'une méthode pour exécuter la 1ère requête SQL
+	public static Statement requeteSQL_1(Connection cn)
 	{
 		Statement st = null;
 		
@@ -103,7 +101,197 @@ public class cinemaClass
 		}
 		return st;
 	}
-	
+
+	// creation d'une méthode pour exécuter la 2ème requête SQL
+	public static Statement requeteSQL_2(Connection cn)
+	{
+		Statement st = null;
+		
+		// création du statement
+		try
+		{
+			// creation d'un statement
+			st = (Statement) cn.createStatement();
+			
+			String sql = 	"SELECT * FROM film " +
+							"WHERE longueur > 180";
+			
+			// la classe ResultSet permet d'exécuter une requête
+			// creation d'une instance result de la classe ResultSet
+			// pour stocker le resultat de la requête
+			ResultSet result = (ResultSet) st.executeQuery(sql);
+			
+			String titre;
+			String genre;
+			int longueur;
+			
+			while(result.next())
+			{
+				titre = result.getString("titre");
+				genre = result.getString("genre");
+				longueur = result.getInt("longueur");
+				System.out.println("Le film " + titre + " de " + genre + 
+									" à une durée de " + longueur + " minutes");
+			}
+			
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return st;
+	}
+
+	// creation d'une méthode pour exécuter la 3ème requête SQL
+	public static Statement requeteSQL_3(Connection cn)
+	{
+		Statement st = null;
+		
+		// création du statement
+		try
+		{
+			// creation d'un statement
+			st = (Statement) cn.createStatement();
+			
+			// String sql =	"SELECT DISTINCT genre FROM film";
+			// ou 
+			String sql =	"SELECT genre FROM film " +
+							"GROUP BY genre";
+			
+			// la classe ResultSet permet d'exécuter une requête
+			// creation d'une instance result de la classe ResultSet
+			// pour stocker le resultat de la requête
+			ResultSet result = (ResultSet) st.executeQuery(sql);
+			
+			String genre;
+			
+			while(result.next())
+			{
+				genre = result.getString("genre");
+				System.out.println("Le genre est : " + genre);
+			}
+			
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return st;
+	}
+
+	// creation d'une méthode pour exécuter la 4ème requête SQL
+	public static Statement requeteSQL_4(Connection cn)
+	{
+		Statement st = null;
+		
+		// création du statement
+		try
+		{
+			// creation d'un statement
+			st = (Statement) cn.createStatement();
+
+			String sql =	"SELECT titre, annee, budget FROM film " +
+							"WHERE genre = 'Science-fiction' " +
+							"AND budget > 5";
+			
+			// la classe ResultSet permet d'exécuter une requête
+			// creation d'une instance result de la classe ResultSet
+			// pour stocker le resultat de la requête
+			ResultSet result = (ResultSet) st.executeQuery(sql);
+			
+			String titre;
+			int annee;
+			double budget;
+			
+			while(result.next())
+			{
+				titre = result.getString("titre");
+				annee = result.getInt("annee");
+				budget = result.getDouble("budget");
+				System.out.println("Le film " + titre + " de " + annee +
+									" au budget de " + budget + " $");
+			}
+			
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return st;
+	}
+
+	// creation d'une méthode pour exécuter la 5ème requête SQL
+	public static Statement requeteSQL_5(Connection cn)
+	{
+		Statement st = null;
+		
+		// création du statement
+		try
+		{
+			// creation d'un statement
+			st = (Statement) cn.createStatement();
+			
+			String sql =	"SELECT genre, count(*) as count FROM film " +
+							"GROUP BY genre";
+			
+			// la classe ResultSet permet d'exécuter une requête
+			// creation d'une instance result de la classe ResultSet
+			// pour stocker le resultat de la requête
+			ResultSet result = (ResultSet) st.executeQuery(sql);
+			
+			String genre;
+			int count;
+			
+			while(result.next())
+			{
+				genre = result.getString("genre");
+				count =	result.getInt("count");
+				System.out.println(count + " genre(s) de film " + genre);
+			}
+			
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return st;
+	}
+
+	// creation d'une méthode pour exécuter la 6ème requête SQL
+	public static Statement requeteSQL_6(Connection cn)
+	{
+		Statement st = null;
+		
+		// création du statement
+		try
+		{
+			// creation d'un statement
+			st = (Statement) cn.createStatement();
+			
+			String sql =	"SELECT annee, genre, count(*) as nb FROM film " +
+							"WHERE annee = 1960 " +
+							"GROUP BY annee, genre";
+			
+			// la classe ResultSet permet d'exécuter une requête
+			// creation d'une instance result de la classe ResultSet
+			// pour stocker le resultat de la requête
+			ResultSet result = (ResultSet) st.executeQuery(sql);
+			
+			int annee;
+			String genre;
+			int nb;
+			
+			while(result.next())
+			{
+				annee = result.getInt("annee");
+				genre = result.getString("genre");
+				nb =	result.getInt("nb");
+				System.out.println(nb + " genre(s) de film " + genre + " de l'année " + annee);
+			}
+			
+		} catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+		return st;
+	}
+
 	public static void main(String[] args)
 	{
 		Connection cn = null;
@@ -111,8 +299,31 @@ public class cinemaClass
 		
 		// appelle de la méthode de connection
 		cn = openConnection(st);
+		System.out.println("");
 		
-		st = selectAll(cn);
+		// création et exécution de la 1ère requete SQL
+		st = requeteSQL_1(cn);
+		System.out.println();
+		
+		// création et exécution de la 2ème requete SQL
+		st = requeteSQL_2(cn);
+		System.out.println("");
+		
+		// création et exécution de la 3ème requete SQL
+		st = requeteSQL_3(cn);
+		System.out.println("");
+		
+		// création et exécution de la 4ème requete SQL
+		st = requeteSQL_4(cn);
+		System.out.println("");
+		
+		// création et exécution de la 5ème requete SQL
+		st = requeteSQL_5(cn);
+		System.out.println("");
+		
+		// création et exécution de la 6ème requete SQL
+		st = requeteSQL_6(cn);
+		System.out.println("");
 		
 		// appelle de la méthode de fermeture
 		closeConnection(cn, st);
