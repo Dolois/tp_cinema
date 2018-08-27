@@ -80,19 +80,19 @@ public class cinemaClass
 			st = (Statement) cn.createStatement();
 			
 			// liste de toutes les occurences de la table personne
-			String sql = "SELECT * FROM personne";
+			String sql = "SELECT titre FROM film";
 			
 			// la classe ResultSet permet d'exécuter une requête
 			// creation d'une instance result de la classe ResultSet
 			// pour stocker le resultat de la requête
 			ResultSet result = (ResultSet) st.executeQuery(sql);
 			
-			String prenom;
+			String titre;
 			
 			while(result.next())
 			{
-				prenom = result.getString("prenom");
-				System.out.println("La personne est : " + prenom);
+				titre = result.getString("titre");
+				System.out.println("Le titre du film est : " + titre);
 			}
 			
 		} catch (SQLException e)
@@ -228,7 +228,7 @@ public class cinemaClass
 			// creation d'un statement
 			st = (Statement) cn.createStatement();
 			
-			String sql =	"SELECT genre, count(*) as count FROM film " +
+			String sql =	"SELECT genre, COUNT(genre) AS count FROM film " +
 							"GROUP BY genre";
 			
 			// la classe ResultSet permet d'exécuter une requête
@@ -264,9 +264,9 @@ public class cinemaClass
 			// creation d'un statement
 			st = (Statement) cn.createStatement();
 			
-			String sql =	"SELECT annee, genre, count(*) as nb FROM film " +
+			String sql =	"SELECT annee, genre, count(genre) as nb FROM film " +
 							"WHERE annee = 1960 " +
-							"GROUP BY annee, genre";
+							"GROUP BY genre";
 			
 			// la classe ResultSet permet d'exécuter une requête
 			// creation d'une instance result de la classe ResultSet
@@ -306,7 +306,7 @@ public class cinemaClass
 			String sql =	"SELECT titre, genre " +
 							"FROM film " +
 							"WHERE realisateur = 'Roman Polanski'";
-			
+
 			// la classe ResultSet permet d'exécuter une requête
 			// creation d'une instance result de la classe ResultSet
 			// pour stocker le resultat de la requête
